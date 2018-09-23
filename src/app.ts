@@ -1,11 +1,11 @@
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as morgan from 'morgan';
+import * as cors from 'cors';
 
 import config from './config';
 
 import Routes from './api/routes';
-import { failedResponse } from './helpers/responseHandler';
 
 const ev = require('express-validation');
 
@@ -22,15 +22,23 @@ class Server {
 
   // application config
   private config = (): void => {
-    // cors
-     this.app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
-      res.header('Access-Control-Allow-Credentials', 'true');
-      next();
-    });
+    // this.app.use((req: express.Request, res, next) => {
+      // const fs = require('fs');
+      // fs.readFile('./src/index.ts', 'utf8', function (err, data) {
+      //   if (err) {
+      //     return console.log(err);
+      //   }
+      //   const result = data.replace(/string to be replaced/g, 'replacement');
+
+      //   fs.writeFile('./src/index.ts', result, 'utf8', function (err) {
+      //     if (err) return console.log(err);
+      //   });
+      // });
+    //   next();
+    // });
+
     // express middleware
+    this.app.use(cors());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(cookieParser());

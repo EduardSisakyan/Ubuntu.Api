@@ -1,4 +1,6 @@
 
 export const schemaRef = {
-  person: 'Person'
+  person: 'Person',
+  server: 'Server',
+  personServer: 'Person-Server',
 };
