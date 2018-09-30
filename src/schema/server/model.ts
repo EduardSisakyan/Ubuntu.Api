@@ -2,7 +2,8 @@ import { Document, Model } from 'mongoose';
 
 export interface IServerSchema extends Document {
   name: string;
-  baseUrl: string;
+  username: string;
+  host: string;
   password: string;
   salt: string;
   updatedDt: Date;
@@ -11,5 +12,3 @@ export interface IServerSchema extends Document {
   encryptPassword(password: string): string;
   makeSalt(byteSize?: number): string;
 }
-
-export interface IServerModel extends Model<IServerSchema> {}

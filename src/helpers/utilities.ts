@@ -4,7 +4,7 @@ import chalk from 'chalk';
 
 import config from '../config';
 
-import { IPaginationViewModel } from '../models';
+import { IPagingResModel } from '../models';
 
 export const isObjectId = (values: string[]): boolean => {
   let isObjectIdFlag: boolean = true;
@@ -17,10 +17,6 @@ export const isObjectId = (values: string[]): boolean => {
   return isObjectIdFlag;
 };
 
-export const getCurrentPage = (offset: number, limit: number): number => {
-  return Math.ceil((offset + limit) / limit);
-};
-
 export const getCount = (object) => {
   return object
     .skip(0)
@@ -29,17 +25,16 @@ export const getCount = (object) => {
     .exec();
 };
 
-export const pagination = async<T = any>(filters, obj, sort?: string): Promise<IPaginationViewModel<T>> => {
+export const pagination = async<T = any>(filters, obj): Promise<IPagingResModel<T>> => {
   filters.limit = filters.limit || 20;
   filters.offset = filters.offset || 0;
-  const data: T = await obj;
+  const data: T[] = await obj;
   const count: number = await getCount(obj);
 
   return {
-    count: count,
-    currentPage: getCurrentPage(filters.offset, filters.limit),
-    data: data,
-    limit: filters.limit,
+    itemCount : count,
+    pageCount : Math.ceil(count / filters.limit),
+    data      : data,
   };
 };
 

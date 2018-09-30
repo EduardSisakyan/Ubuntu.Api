@@ -12,5 +12,3 @@ export interface IPersonSchema extends Document {
   makeSalt(byteSize?: number): string;
   getToken(): string;
 }
-
-export interface IPersonModel extends Model<IPersonSchema> {}

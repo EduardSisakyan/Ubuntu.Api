@@ -14,9 +14,20 @@ export interface IResponseModel<T = null> {
   };
 }
 
-export interface IPaginationViewModel<T> {
-  count: number;
-  currentPage: number;
-  data: T;
+export interface IPagingResModel<T> {
+  itemCount: number;
+  pageCount: number;
+  data: T[];
+}
+
+export interface IPagingBodyModel {
   limit: number;
+  offset: number;
+}
+
+export interface IServerConfigModel {
+  host: string;
+  username: string;
+  password: string;
+  port?: number;
 }

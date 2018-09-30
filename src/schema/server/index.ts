@@ -2,13 +2,13 @@ import * as mongoose from 'mongoose';
 import * as crypto from 'crypto';
 
 import { schemaRef }   from '../../helpers/constants';
-import { IServerSchema, IServerModel } from './model';
+import { IServerSchema } from './model';
 
 const schema = new mongoose.Schema({
   name      : { type: String, required: true },
-  baseUrl   : { type: String, unique: true, required: true },
+  username  : { type: String, required: true },
+  host      : { type: String, unique: true, required: true },
   password  : { type: String, required: true },
-  role      : { type: Number, required: true },
   salt      : { type: String, required: true },
   updatedDt : { type: Date, required: true },
   createdDt : { type: Date, default: Date.now },
@@ -51,4 +51,4 @@ schema.methods.makeSalt = function (byteSize: number = 16): string {
   return crypto.randomBytes(byteSize).toString('base64');
 };
 
-export default mongoose.model<IServerSchema, IServerModel>(schemaRef.server, schema);
+export default mongoose.model<IServerSchema, mongoose.Model<IServerSchema>>(schemaRef.server, schema);

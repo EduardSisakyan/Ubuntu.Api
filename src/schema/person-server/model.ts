@@ -4,5 +4,3 @@ export interface IPersonServerSchema<User = string, Server = string> extends Doc
   user: User;
   server: Server;
 }
-
-export interface IPersonServerModel extends Model<IPersonServerSchema> {}

@@ -1,11 +1,14 @@
 
 import { Response, Router } from 'express';
 
-import { ICreateServerBodyModel } from './models';
-import Validation from './validation';
-import Service from './service';
-import { sendToSlack } from '../../helpers/errorHandler';
-import { IResponseModel, IRequest } from '../../models';
+import Validation      from './validation';
+import Service         from './service';
+import { authorize }   from '../validation';
+import { sendToSlack } from '../../services/slack';
+
+import { ICreateServerBodyModel }                    from './models';
+import { IServerSchema }                             from '../../schema/server/model';
+import { IResponseModel, IRequest, IPagingResModel } from '../../models';
 
 class ServerContoller {
   public router: Router;
@@ -19,6 +22,16 @@ class ServerContoller {
     this.routes();
   }
 
+  private getList = async(req: IRequest, res: Response) => {
+    try {
+      const body: ICreateServerBodyModel = req.body;
+      const response: IResponseModel<IPagingResModel<IServerSchema>> = await this.service.getList(body, req.user);
+      res.send(response);
+    } catch (e) {
+      sendToSlack(e, req, res);
+    }
+  }
+
   private create = async(req: IRequest, res: Response) => {
     try {
       const body: ICreateServerBodyModel = req.body;
@@ -30,7 +43,8 @@ class ServerContoller {
   }
 
   public routes() {
-    this.router.post('/create', this.validation.create, this.create);
+    this.router.post('/GetList', authorize(), this.validation.getList, this.getList);
+    this.router.post('/Create', authorize(), this.validation.create, this.create);
   }
 }
 

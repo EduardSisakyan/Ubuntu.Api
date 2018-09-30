@@ -4,3 +4,9 @@ export interface IRegisterBodyModel {
   password: string;
 }
 
+export interface IProfileDetailsResModel {
+  username: string;
+  role: number;
+  updatedDt: Date;
+  createdDt: Date;
+}

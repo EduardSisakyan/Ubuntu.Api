@@ -5,7 +5,7 @@ import AuthContoller from './auth';
 import ServerContoller from './server';
 
 export default (app: express.Application) => {
-  app.use('/api/auth', AuthContoller);
-  app.use('/api/person', PersonContoller);
-  app.use('/api/server', ServerContoller);
+  app.use('/api/Auth', AuthContoller);
+  app.use('/api/Person', PersonContoller);
+  app.use('/api/Server', ServerContoller);
 };

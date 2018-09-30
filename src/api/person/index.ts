@@ -1,11 +1,12 @@
 
 import { Response, Router } from 'express';
 
-import { IRegisterBodyModel } from './models';
+import { IRegisterBodyModel, IProfileDetailsResModel } from './models';
 import Validation from './validation';
 import Service from './service';
-import { sendToSlack } from '../../helpers/errorHandler';
+import { sendToSlack } from '../../services/slack';
 import { IResponseModel, IRequest } from '../../models';
+import { authorize } from '../validation';
 
 class PersonContoller {
   public router: Router;
@@ -29,8 +30,19 @@ class PersonContoller {
     }
   }
 
+  private getProfileDetails = async(req: IRequest, res: Response) => {
+    try {
+      const response: IResponseModel<IProfileDetailsResModel> = await this.service.getProfileDetails(req.user);
+      res.send(response);
+    } catch (e) {
+      sendToSlack(e, req, res);
+    }
+  }
+
   public routes() {
-    this.router.post('/signUp', this.validation.signUp, this.signUp);
+    this.router.get('/ProfileDetails', authorize(), this.getProfileDetails);
+
+    this.router.post('/SignUp', this.validation.signUp, this.signUp);
   }
 }
 

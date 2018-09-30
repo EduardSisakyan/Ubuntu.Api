@@ -2,8 +2,8 @@ import * as mongoose from 'mongoose';
 import * as crypto from 'crypto';
 import * as jwt from 'jsonwebtoken';
 
-import { schemaRef }   from '../../helpers/constants';
-import { IPersonSchema, IPersonModel } from './model';
+import { schemaRef }     from '../../helpers/constants';
+import { IPersonSchema } from './model';
 import config from '../../config';
 
 const schema = new mongoose.Schema({
@@ -57,4 +57,4 @@ schema.methods.getToken = function (): string {
   return jwt.sign({ _id: _this._id, }, config.secretKey);
 };
 
-export default mongoose.model<IPersonSchema, IPersonModel>(schemaRef.person, schema);
+export default mongoose.model<IPersonSchema, mongoose.Model<IPersonSchema>>(schemaRef.person, schema);

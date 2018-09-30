@@ -3,7 +3,7 @@ import { Response, Router } from 'express';
 
 import Validation from './validation';
 import Service from './service';
-import { sendToSlack } from '../../helpers/errorHandler';
+import { sendToSlack } from '../../services/slack';
 import { IResponseModel, IRequest } from '../../models';
 import { ILoginResModel, ILoginBodyModel } from './models';
 

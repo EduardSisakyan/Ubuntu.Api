@@ -6,8 +6,7 @@ import * as cors from 'cors';
 import config from './config';
 
 import Routes from './api/routes';
-
-const ev = require('express-validation');
+import { successResponse } from './helpers/responseHandler';
 
 class Server {
 
@@ -22,20 +21,15 @@ class Server {
 
   // application config
   private config = (): void => {
-    // this.app.use((req: express.Request, res, next) => {
-      // const fs = require('fs');
-      // fs.readFile('./src/index.ts', 'utf8', function (err, data) {
-      //   if (err) {
-      //     return console.log(err);
-      //   }
-      //   const result = data.replace(/string to be replaced/g, 'replacement');
 
-      //   fs.writeFile('./src/index.ts', result, 'utf8', function (err) {
-      //     if (err) return console.log(err);
-      //   });
-      // });
-    //   next();
-    // });
+    // cors
+    this.app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      next();
+    });
 
     // express middleware
     this.app.use(cors());
@@ -47,7 +41,7 @@ class Server {
   }
 
   // application routes
-  public routes = (): void => {
+  public routes = async() => {
     Routes(this.app);
 
     this.app.use((req, res, next) => {
